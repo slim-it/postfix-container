@@ -4,7 +4,10 @@ ARG POSTFIX_VERSION
 LABEL org.opencontainers.image.title="postfix container"
 LABEL org.opencontainers.image.description="Postfix with MySQL map support from the Ubuntu packages"
 LABEL org.opencontainers.image.source="https://github.com/slim-it/postfix-container"
-LABEL org.opencontainers.image.version="${POSTFIX_VERSION}"
+# The tag drops the packaging revision, and CI overwrites the standard
+# image.version annotation with the tag, so this is where the exact packaged
+# version a given image contains is recorded.
+LABEL nl.slim-it.postfix.version="${POSTFIX_VERSION}"
 
 # postfix-mysql provides the dynamicmaps plugin for `mysql:` lookup tables,
 # which every recipient class is resolved through; it is versioned with the

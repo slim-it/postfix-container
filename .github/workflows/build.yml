@@ -27,9 +27,11 @@ jobs:
           test -n "$version"
           echo "version=$version" >> "$GITHUB_OUTPUT"
           # Release tag: the packaged version stripped of its packaging
-          # revision, so the tag reads as the upstream version and Renovate
-          # orders it with no extra configuration.
-          echo "release=${version%%-*}" >> "$GITHUB_OUTPUT"
+          # revision, with the build number as a final component so that any
+          # rebuild — a new packaging revision of the same upstream version, or
+          # a base image update — publishes a strictly higher tag instead of
+          # silently replacing the contents of an existing one.
+          echo "release=${version%%-*}.${{ github.run_number }}" >> "$GITHUB_OUTPUT"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4.2.0
